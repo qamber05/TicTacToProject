@@ -1,14 +1,19 @@
 body {
+    text-align: center;
   background-color: gainsboro;
   /* Use a system font, if none are available use an available sans-sarif */
   font-family: system-ui, sans-serif;
   margin: 0;
+  background-image: url(/ice.jpeg);
 }
 
 .board {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   width: 325px;
+  margin-left: 40%;
+  background-image: url(background.jpg);
 }
 
 .sqr {
@@ -18,3 +23,4 @@ body {
   font-size: 64px;
   text-align: center;
 }
+
