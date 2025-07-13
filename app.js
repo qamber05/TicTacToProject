@@ -128,6 +128,8 @@ squareEls.forEach(square => {
 
 //7) Create Reset functionality.
 
+const resetBtnEl = document.getElementById('reset');
+resetBtnEl.addEventListener('click', init);
 /*-------------------------------- Constants --------------------------------*/
 
 
