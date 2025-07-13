@@ -121,6 +121,10 @@ function checkForTie() {
   console.log('Turn:', turn); // for testing, remove later
 }
 
+squareEls.forEach(square => {
+  square.addEventListener('click', handleClick);
+});
+
 
 //7) Create Reset functionality.
 
