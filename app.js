@@ -115,7 +115,12 @@ function checkForTie() {
   console.log('Tie?', tie); // For testing — remove later
 }
 
- 
+ function switchPlayerTurn() {
+  if (winner) return;
+  turn = turn === 'X' ? 'O' : 'X';
+  console.log('Turn:', turn); // for testing, remove later
+}
+
 
 //7) Create Reset functionality.
 
