@@ -1,26 +1,44 @@
 body {
-    text-align: center;
-  background-color: gainsboro;
+  background-color: rgb(35, 46, 50);
   /* Use a system font, if none are available use an available sans-sarif */
   font-family: system-ui, sans-serif;
-  margin: 0;
-  background-image: url(/ice.jpeg);
+  margin: 1;
+  text-align: center;
 }
 
 .board {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
   width: 325px;
-  margin-left: 40%;
-  background-image: url(background.jpg);
+  margin: auto;
 }
 
 .sqr {
   width: 30%;
   aspect-ratio: 1/1;
-  border: 3px solid black;
+  border: 3px solid #d2191c;
   font-size: 64px;
-  text-align: center;
+  border-radius: 9px 9px;
+  margin: 2px;
+  background-color: #060c1d;
+  color: rgb(179, 172, 172);
 }
 
+#reset{
+  display: flex;
+  flex-direction: column;
+  font-size: 25px;
+  border-radius: 7px 7px;
+  margin: auto;
+  margin-top: 25px;
+  background-color: #97aeb3;
+  font: sans-serif;
+}
+#message{
+  color: rgb(211, 179, 34);
+  border-radius: 5px 5px;
+  text-align: center;
+}
+#msg{
+  color: #f30c10;
+}

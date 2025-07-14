@@ -1,151 +1,129 @@
-//1) Define the required variables used to track the state of the game.
-let board;
-let turn;
-let winner;
-let tie;
-
-//2) Store cached element references.
-
-const squareEls = document.querySelectorAll('.sqr')
-const messageEls = document.querySelector('.board')
-
-console.log("square:",squareEls)
-console.log("message:", messageEls)
-
-//3) Upon loading, the game state should be initialized, and a function should 
-//   be called to render this game state.
-function startGame() {
-    console.log("the game is rendering")
+/*-------------------------------- Constants --------------------------------*/
+const winningCombos = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [0, 4, 8],
+  [2, 4, 6],
+]
+/*---------------------------- Variables (state) ----------------------------*/
+let board = [
+  "", "", "",
+  "", "", "",
+  "", "", "",
+]
+let turn = "X"
+let winner = false
+let tie = false
+/*------------------------ Cached Element References ------------------------*/
+const sqrElem = document.querySelectorAll(".sqr")
+const msgElem = document.querySelector("#message")
+const resetBtnElem = document.querySelector('#reset')
+/*-------------------------------- Functions --------------------------------*/
+function init(){
+  board = [
+    "", "", "",
+    "", "", "",
+    "", "", "",
+  ]
+  turn = "X"
+  winner = false
+  tie = false
+  render()
 }
 
-startGame()
-
-board = ['','','','','','','','','',''];
-turn = 'X';
-winners = false;
-tie= false;
-function render() {
-
+function render(){
+  updateBoard()
+  updateMessage()
 }
 
-//4) The state of the game should be rendered to the user.
-function updateBoard() {
-  board.forEach((cell, index) => {
-    squareEls[index].textContent = cell;
-  });
+function updateBoard(){
+  board.forEach((elem, index) => {
+    sqrElem[index].textContent = elem
+    if (board[index] === ''){
+      sqrElem[index].style.backgroundColor = ''
+      msgElem.style.color = ''
+      //if msgElem.style.color = '#946927ff'
+      //if msgElem.style.color = '#702246ff'
+    }
+  })
 }
 
-function updateMessage() {
-  if (winner === false && tie === false) {
-    messageEl.textContent = `It's ${turn}'s turn!`;
-  } else if (winner === false && tie === true) {
-    messageEl.textContent = "It's a tie!";
-  } else {
-    messageEl.textContent = `Congratulations, ${turn} wins!`;
+function updateMessage(){
+  if (winner === false && tie === false){
+    msgElem.textContent = `It's ${turn}'s turn`
+  } else if (winner === false && tie === true){
+    msgElem.textContent = `It's tie!`
+    msgElem.style.color = ''
+  } else if (winner === true) {
+    msgElem.textContent = `${turn} wins!`
+    msgElem.style.color = 'yellow'
   }
 }
 
-function render() {
-  updateBoard();
-  updateMessage();
+function handleClick(event){
+  const sqrIndex = event.target.id
+  if (board[sqrIndex] || winner === true){
+    return
+  }
+  placePiece(sqrIndex)
+  checkForWinner()
+  checkForTie()
+  switchPlayerTurn()
+  if (board[sqrIndex] === 'X'){
+      event.target.style.backgroundColor = '#702246ff'
+      console.log('hi')
+    } else if (board[sqrIndex] === 'O'){
+      event.target.style.backgroundColor = '#89621fff'
+    }
+  render()
 }
 
-
-//5) Define the required constants.
-
-
-const winningCombos = [
-  [0, 1, 2], // top row
-  [3, 4, 5], // middle row
-  [6, 7, 8], // bottom row
-  [0, 3, 6], // left column
-  [1, 4, 7], // middle column
-  [2, 5, 8], // right column
-  [0, 4, 8], // diagonal from top-left to bottom-right
-  [2, 4, 6]  // diagonal from top-right to bottom-left
-];
-
-//6) Handle a player clicking a square with a `handleClick` function.
-
-function handleClick(Event) {
-  const squareIndex = parseInt(event.target.id);
-  if (board[squareIndex] !== '' || winner) return;
-
-  placePiece(squareIndex);
-  checkForWinner();
-  checkForTie();
-  switchPlayerTurn();
-  render();
+function placePiece(index){
+  board[index] = turn  
 }
 
-function placePiece(index) {
-  board[index] = turn;       // Set board at the given index to 'X' or 'O'
-  console.log(board);        // Show the updated board in the console (for testing)
-}
-
-function checkForWinner() {
-  for (let i = 0; i < winningCombos.length; i++) {
-    const combo = winningCombos[i];
-    const a = combo[0];
-    const b = combo[1];
-    const c = combo[2];
-
-    if (
-      board[a] !== '' &&      // first spot not empty
-      board[a] === board[b] && // first spot equals second spot
-      board[a] === board[c]    // first spot equals third spot
-    ) {
-      winner = true;
-      return; // stop checking after finding a winner
+function checkForWinner(){ 
+  for (let i = 0; i < 8; i++){
+    let combo = winningCombos[i]
+    let a = board[combo[0]]
+    let b = board[combo[1]]
+    let c = board[combo[2]]
+    if (a !== '' && a === b && a === c){
+      winner = true
     }
   }
-  winner = false; // no winner found
 }
 
-function checkForTie() {
-  if (winner) return;  // If someone already won, no tie possible
-  
-  // Check if the board has any empty spots
-  if (!board.includes('')) {
-    tie = true;  // No empty spots and no winner means it's a tie
-  } else {
-    tie = false; // There are still empty spots, no tie yet
+function checkForTie(){
+  for (let i = 0; i < 9; i++)
+    if (winner === true){
+      return
+    } else if (board[i] === ''){
+      tie = false
+      return
+    } else {
+      tie = true
+    }
+}
+
+function switchPlayerTurn(){
+  if (winner === true){
+    return
+  } else if (winner === false && turn === 'X'){
+    turn = 'O'
+  } else if (turn === 'O'){
+    turn = 'X'
   }
+}
+/*----------------------------- Event Listeners ----------------------------*/
+for (let i = 0;  i < 9; i++){
+  sqrElem[i].addEventListener('click', handleClick)
+}
+
+resetBtnElem.addEventListener('click', init)
   
-  console.log('Tie?', tie); // For testing — remove later
-}
-
- function switchPlayerTurn() {
-  if (winner) return;
-  turn = turn === 'X' ? 'O' : 'X';
-  console.log('Turn:', turn); // for testing, remove later
-}
-
-squareEls.forEach(square => {
-  square.addEventListener('click', handleClick);
-});
-
-
-//7) Create Reset functionality.
-
-const resetBtnEl = document.getElementById('reset');
-resetBtnEl.addEventListener('click', init);
-/*-------------------------------- Constants --------------------------------*/
-
-
-
-/*---------------------------- Variables (state) ----------------------------*/
-
-
-
-/*------------------------ Cached Element References ------------------------*/
-
-
-
-/*-------------------------------- Functions --------------------------------*/
-
-
-
-/*----------------------------- Event Listeners -----------------------------*/
-
-
+document.add
