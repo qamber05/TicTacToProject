@@ -160,9 +160,7 @@ function f4updateBoard(){
     sqrElem[index].textContent = elem
     if (f4board[index] === ''){
       sqrElem[index].style.backgroundColor = ''
-      msgElem.style.color = ''
-      //if msgElem.style.color = '#946927ff'
-      //if msgElem.style.color = '#702246ff'
+      msgElem.style.color = ' '
     }
   })
 }
