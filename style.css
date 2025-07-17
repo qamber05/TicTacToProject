@@ -32,6 +32,17 @@ h1 {
   padding: 10px;
 }
 
+.f4board {
+display: grid;
+  grid-template-columns: repeat(4, 100px);
+  grid-gap: 10px;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 10px;
+}
+  
+
+
 .sqr {
   width: 100px;
   height: 100px;
